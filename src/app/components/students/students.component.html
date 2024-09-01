@@ -1,0 +1,63 @@
+<h2 style="padding:15px">Şagirdlər</h2>
+<button (click)="addStudent()" style="margin:15px">Yarat</button>
+<div style="overflow: auto; height: 500px; padding:15px">
+<table >
+  <thead>
+    <tr>
+      <th>Nömrəsi</th>
+      <th>Ad</th>
+      <th>Soyad</th>
+      <th>Sinif</th>
+      <th>Əməliyyatlar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let student of students">
+      <td>{{ student.number }}</td>
+      <td>{{ student.name }}</td>
+      <td>{{ student.surname }}</td>
+      <td>{{ student.class }}</td>
+      <td style="display: flex; justify-content: space-around;">
+
+        <button (click)="editStudent(student)">Dəyiş</button>
+        <button (click)="deleteStudent(student.id)">Sil</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="crudPopupBg" *ngIf="crudPopupVisible">
+  <div class="crudPopup">
+    
+    <form [formGroup]="frm" (ngSubmit)="submit()" id="ngForm">
+      <label>Ad</label>
+      <input class="formInput" type="text" formControlName="name" >
+      <div class="validation-error" *ngIf="!name.valid && (name.dirty || name.touched)">
+        Bu field boş və ya bu qədər uzun ola bilməz!
+      </div>
+      <label>Soyad</label>
+      <input class="formInput" type="text" formControlName="surname">
+      <div class="validation-error" *ngIf="!surname.valid && (surname.dirty || surname.touched)">
+        Bu field boş və ya bu qədər uzun ola bilməz!
+      </div>
+      <label>Nömrə</label>
+      <input class="formInput" type="number" formControlName="number" >
+      <div class="validation-error" *ngIf="!number.valid && (number.dirty || number.touched)">
+        Bu field boş və ya bu qədər uzun ola bilməz!
+      </div>
+      <label>Sinif</label>
+      <input class="formInput" type="number" formControlName="class">
+      <div class="validation-error" *ngIf="!class.valid && (class.dirty || class.touched)">
+        Bu field boş və ya bu qədər uzun ola bilməz!
+      </div>
+    </form>
+    <button form="ngForm"  class="crud-popup-save-button">
+     
+      Yadda saxla
+    </button>
+    <button class="closeButton" (click)='crudPopupVisible = false'>
+     
+      Bağla
+    </button>
+  </div>
+</div>

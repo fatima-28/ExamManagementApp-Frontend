@@ -1,0 +1,72 @@
+<h2 style="padding:15px">Dərslər</h2>
+<button (click)="addLesson()" style="margin:15px">Yarat</button>
+<div style="overflow: auto; height: 500px; padding:15px">
+<table >
+  
+  <thead>
+    <tr>
+      <th>Dərsin Kodu</th>
+      <th>Dərsin Adı</th>
+      <th>Sinifi</th>
+      <th>Müəllim Adı</th>
+      <th>Müəllim Soyadı</th>
+      <th>Əməliyyatlar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let lesson of lessons">
+      <td>{{ lesson.code }}</td>
+      <td>{{ lesson.name }}</td>
+      <td>{{ lesson.class }}</td>
+      <td>{{ lesson.teacherName }}</td>
+      <td>{{ lesson.teacherSurname }}</td>
+      <td style="display: flex; justify-content: space-around;">
+       
+        <button (click)="editLesson(lesson)">Dəyiş</button>
+        <button (click)="deleteLesson(lesson.id)">Sil</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="crudPopupBg" *ngIf="crudPopupVisible">
+  <div class="crudPopup">
+    
+    <form [formGroup]="frm" (ngSubmit)="submit()" id="ngForm">
+      <label>Ad</label>
+      <input class="formInput" type="text" formControlName="name" >
+      <div class="validation-error" *ngIf="!name.valid && (name.dirty || name.touched)">
+        Bu field boş və ya bu qədər uzun ola bilməz!
+      </div>
+      <label>Kod</label>
+      <input class="formInput" type="text" formControlName="code" >
+      <div class="validation-error" *ngIf="!code.valid && (code.dirty || code.touched)">
+        Bu field boş və ya bu qədər uzun ola bilməz!
+      </div>
+      <label>Sinif</label>
+      <input class="formInput" type="number" formControlName="class" >
+      <div class="validation-error" *ngIf="!class.valid && (class.dirty || class.touched)">
+        Bu field boş və ya bu qədər uzun ola bilməz!
+      </div>
+      <label>Müəllim ad</label>
+      <input class="formInput" type="text" formControlName="teacherName" >
+      <div class="validation-error" *ngIf="!teacherName.valid && (teacherName.dirty || teacherName.touched)">
+        Bu field boş və ya bu qədər uzun ola bilməz!
+      </div>
+
+      <label>Müəllim soyad</label>
+
+      <input class="formInput" type="text" formControlName="teacherSurname" >
+      <div class="validation-error" *ngIf="!teacherSurname.valid && (teacherSurname.dirty || teacherSurname.touched)">
+        Bu field boş və ya bu qədər uzun ola bilməz!
+      </div>
+    </form>
+    <button form="ngForm"  class="crud-popup-save-button"> 
+      Yadda saxla
+    </button>
+    <button class="closeButton" (click)='crudPopupVisible = false'>
+      Bağla
+    </button>
+  </div>
+</div>

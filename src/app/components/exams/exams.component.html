@@ -1,0 +1,74 @@
+<h2 style="padding:15px">İmtahanlar</h2>
+<button (click)="addExam()" style="margin:15px">Yarat</button>
+<div style="overflow: auto; height: 500px; padding:15px">
+<table >
+ 
+  <thead>
+    <tr>
+      <th>Dərsin Kodu</th>
+      <th>Şagirdin Nömrəsi</th>
+      <th>İmtahan Tarixi</th>
+      <th>Qiyməti</th>
+      <th>Əməliyyatlar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let exam of exams">
+      <td>{{ exam.lesson.code }}</td>
+      <td>{{ exam?.student?.number }}</td>
+      <td>{{ exam.date  | date:'dd/MM/yyyy' }}</td>
+      <td>{{ exam.grade }}</td>
+      <td style="display: flex; justify-content: space-around;">
+        
+        <button (click)="editExam(exam)">Dəyiş</button>
+        <button (click)="deleteExam(exam.id)">Sil</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+<div class="crudPopupBg" *ngIf="crudPopupVisible">
+  <div class="crudPopup">
+    
+    <form [formGroup]="frm" (ngSubmit)="submit()" id="ngForm">
+     <label>Dərs kodu</label>
+
+     <select class="formInput" formControlName="lessonId">
+      <option *ngFor="let lesson of lessons" [value]="lesson.id">{{ lesson.code }}</option>
+    </select>
+    <div class="validation-error" *ngIf="!lessonId.valid && (lessonId.dirty || lessonId.touched)">
+      Seçim edilməyib!
+    </div>
+     
+
+      <label>Şagird nömrəsi</label>
+      <select class="formInput" formControlName="studentId">
+        <option *ngFor="let student of students" [value]="student.id">{{ student.number }}</option>
+      </select>
+      <div class="validation-error" *ngIf="!studentId.valid && (studentId.dirty || studentId.touched)">
+        Seçim edilməyib!
+      </div>
+
+
+      <label>Tarix</label>
+      <input class="formInput" type="date" formControlName="date" >
+      <div class="validation-error" *ngIf="!date.valid && (date.dirty || date.touched)">
+        Bu field boş və ya bu qədər uzun ola bilməz!
+      </div>
+      <label>Qiymət</label>
+      <input class="formInput" type="number" formControlName="grade" >
+      <div class="validation-error" *ngIf="!grade.valid && (grade.dirty || grade.touched)">
+        Bu field boş və ya bu qədər uzun ola bilməz!
+      </div>
+    </form>
+    <button form="ngForm"  class="crud-popup-save-button">
+     
+      Yadda saxla
+    </button>
+    <button class="closeButton" (click)='crudPopupVisible = false'>
+     
+      Bağla
+    </button>
+  </div>
+</div>
